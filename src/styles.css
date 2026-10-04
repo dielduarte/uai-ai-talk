@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+/* Tokens mirror maestrio.ai apps/web (Figma names, dashes replace slashes). */
+:root {
+  --fg-brand: #00ff73;
+  --fg-brand-dim: #84ffa7;
+  --fg-secondary: #9a9793;
+  --fg-text-secondary: #6b6b6b;
+  --fg-fg1: #f3f4f6;
+
+  --bg-level1: #030303;
+  --bg-muted: #111111;
+  --bg-brand-10: rgba(0, 255, 115, 0.1);
+
+  --border-brand-muted-20: rgba(77, 178, 122, 0.2);
+  --border-brand-30: rgba(0, 255, 115, 0.3);
+  --border-muted: rgba(255, 255, 255, 0.15);
+}
+
+@theme inline {
+  --font-display: "Space Grotesk Variable", sans-serif;
+  --font-body: "DM Sans Variable", sans-serif;
+  --font-mono: "DM Mono", monospace;
+
+  --color-brand: var(--fg-brand);
+  --color-brand-dim: var(--fg-brand-dim);
+  --color-fg-secondary: var(--fg-secondary);
+  --color-fg-muted: var(--fg-text-secondary);
+  --color-fg1: var(--fg-fg1);
+
+  --color-level1: var(--bg-level1);
+  --color-muted-bg: var(--bg-muted);
+  --color-brand-10: var(--bg-brand-10);
+
+  --color-brand-border-muted: var(--border-brand-muted-20);
+  --color-brand-border: var(--border-brand-30);
+  --color-muted-border: var(--border-muted);
+
+  --color-brand-900: #004d24;
+}
+
+@layer base {
+  body {
+    @apply bg-level1 font-body text-fg1 antialiased;
+  }
+}
+
+/* Same grain overlay as the maestrio.ai landing page. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@utility bg-stage-radial {
+  background: radial-gradient(
+    ellipse at top left,
+    color-mix(in srgb, var(--color-brand-900) 60%, black) 0%,
+    var(--bg-level1) 65%
+  );
+}
