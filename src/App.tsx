@@ -1,28 +1,38 @@
 import { AnimatePresence, motion } from "motion/react";
+import { ContentSlide } from "./components/ContentSlide";
 import { TitleSlide } from "./components/TitleSlide";
-import { slides, type Slide } from "./slides";
+import type { Slide } from "./slides";
+import { slides } from "./topics";
 import { useDeck } from "./useDeck";
 
 const pad = (n: number) => String(n).padStart(2, "0");
+const steps = slides.map((s) => s.steps);
 
-function titleOf(slide: Slide) {
+function SlideView({ slide, step }: { slide: Slide; step: number }) {
   switch (slide.kind) {
     case "intro":
-      return { eyebrow: "Demo", title: slide.title };
+      return <TitleSlide eyebrow="Demo" title={slide.title} />;
     case "section":
-      return { eyebrow: pad(slide.number), title: slide.topic.title };
-    case "when":
-      return { eyebrow: `${pad(slide.number)} · ${slide.topic.title}`, title: "Quando usar?" };
+      return <TitleSlide eyebrow={pad(slide.number)} title={slide.topic.title} />;
+    case "content":
+      return (
+        <ContentSlide
+          eyebrow={`${pad(slide.number)} · ${slide.topic.title}`}
+          title={slide.title}
+          step={step}
+          Body={slide.Body}
+        />
+      );
   }
 }
 
 export function App() {
-  const { index, step, go } = useDeck(slides.length);
+  const { slide: index, step, direction, go } = useDeck(steps);
   const slide = slides[index];
 
   return (
     <main
-      className="bg-stage-radial relative flex h-dvh w-full cursor-pointer select-none flex-col justify-between overflow-hidden px-[6vw] py-[5vh]"
+      className="bg-stage-radial relative flex h-dvh w-full cursor-pointer select-none flex-col overflow-hidden px-[6vw] py-[5vh]"
       onClick={() => go("next")}
       onContextMenu={(event) => {
         event.preventDefault();
@@ -38,11 +48,13 @@ export function App() {
         </span>
       </header>
 
-      <AnimatePresence mode="wait" custom={step} initial={false}>
-        <motion.div key={slide.id} custom={step} initial="enter" animate="center" exit="exit">
-          <TitleSlide {...titleOf(slide)} />
-        </motion.div>
-      </AnimatePresence>
+      <div className="flex flex-1 flex-col justify-center">
+        <AnimatePresence mode="wait" custom={direction} initial={false}>
+          <motion.div key={slide.id} custom={direction} initial="enter" animate="center" exit="exit">
+            <SlideView slide={slide} step={step} />
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
       <footer className="flex gap-1">
         {slides.map((s, i) => (

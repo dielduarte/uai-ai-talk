@@ -13,19 +13,20 @@ const KEY_TO_DIRECTION: Record<string, Direction> = {
   End: "last",
 };
 
-export function useDeck(total: number) {
+export function useDeck(steps: number[]) {
   const [state, setState] = useState(() => ({
-    index: slideFromHash(window.location.hash, total),
-    step: 1 as 1 | -1,
+    slide: slideFromHash(window.location.hash, steps.length),
+    step: 0,
+    direction: 1 as 1 | -1,
   }));
 
   const go = useCallback(
     (direction: Direction) =>
-      setState(({ index }) => {
-        const next = navigate(index, direction, total);
-        return { index: next, step: next >= index ? 1 : -1 };
+      setState((current) => {
+        const next = navigate(current, direction, steps);
+        return { ...next, direction: next.slide >= current.slide ? 1 : -1 };
       }),
-    [total],
+    [steps],
   );
 
   useEffect(() => {
@@ -41,8 +42,8 @@ export function useDeck(total: number) {
 
   // Hash keeps the current slide across reloads while editing with HMR.
   useEffect(() => {
-    history.replaceState(null, "", `#${state.index + 1}`);
-  }, [state.index]);
+    history.replaceState(null, "", `#${state.slide + 1}`);
+  }, [state.slide]);
 
   return { ...state, go };
 }

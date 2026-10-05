@@ -7,14 +7,17 @@
   --fg-secondary: #9a9793;
   --fg-text-secondary: #6b6b6b;
   --fg-fg1: #f3f4f6;
+  --fg-sev-high: #ff7a3e;
 
   --bg-level1: #030303;
   --bg-muted: #111111;
   --bg-brand-10: rgba(0, 255, 115, 0.1);
+  --bg-sev-high-10: rgba(255, 122, 62, 0.1);
 
   --border-brand-muted-20: rgba(77, 178, 122, 0.2);
   --border-brand-30: rgba(0, 255, 115, 0.3);
   --border-muted: rgba(255, 255, 255, 0.15);
+  --border-orange-30: rgba(255, 122, 62, 0.3);
 }
 
 @theme inline {
@@ -27,14 +30,17 @@
   --color-fg-secondary: var(--fg-secondary);
   --color-fg-muted: var(--fg-text-secondary);
   --color-fg1: var(--fg-fg1);
+  --color-sev-high: var(--fg-sev-high);
 
   --color-level1: var(--bg-level1);
   --color-muted-bg: var(--bg-muted);
   --color-brand-10: var(--bg-brand-10);
+  --color-sev-high-10: var(--bg-sev-high-10);
 
   --color-brand-border-muted: var(--border-brand-muted-20);
   --color-brand-border: var(--border-brand-30);
   --color-muted-border: var(--border-muted);
+  --color-orange-border: var(--border-orange-30);
 
   --color-brand-900: #004d24;
 }

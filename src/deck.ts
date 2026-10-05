@@ -1,15 +1,22 @@
 export type Direction = "next" | "prev" | "first" | "last";
 
-export function navigate(current: number, direction: Direction, total: number): number {
+export type Position = { slide: number; step: number };
+
+export function navigate({ slide, step }: Position, direction: Direction, steps: number[]): Position {
+  const lastSlide = steps.length - 1;
   switch (direction) {
     case "next":
-      return Math.min(current + 1, total - 1);
+      if (step < steps[slide] - 1) return { slide, step: step + 1 };
+      if (slide < lastSlide) return { slide: slide + 1, step: 0 };
+      return { slide, step };
     case "prev":
-      return Math.max(current - 1, 0);
+      if (step > 0) return { slide, step: step - 1 };
+      if (slide > 0) return { slide: slide - 1, step: steps[slide - 1] - 1 };
+      return { slide, step };
     case "first":
-      return 0;
+      return { slide: 0, step: 0 };
     case "last":
-      return total - 1;
+      return { slide: lastSlide, step: steps[lastSlide] - 1 };
   }
 }
 
