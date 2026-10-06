@@ -79,3 +79,67 @@ export function FlowInput({ input, danger, id }: { input: string | null; danger:
     </div>
   );
 }
+
+export type View = { width: number; height: number };
+export type Point = { x: number; y: number };
+
+const WIRE_SECONDS = 0.5;
+
+export function Wire({ d, color, lit = true, delay = 0 }: { d: string; color?: string; lit?: boolean; delay?: number }) {
+  return (
+    <>
+      <path d={d} fill="none" stroke="var(--border-muted)" strokeWidth={2} />
+      {color && (
+        <motion.path
+          d={d}
+          fill="none"
+          stroke={color}
+          strokeWidth={2}
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: lit ? 1 : 0 }}
+          transition={{ duration: WIRE_SECONDS, delay, ease: "easeInOut" }}
+        />
+      )}
+    </>
+  );
+}
+
+// Children are placed in the same coordinate space as the SVG wires, so the
+// wires stay attached to the HTML nodes at any slide size.
+export function FlowCanvas({ view, wires, children }: { view: View; wires: ReactNode; children: ReactNode }) {
+  return (
+    <div className="relative w-full max-w-5xl" style={{ aspectRatio: `${view.width} / ${view.height}` }}>
+      <svg viewBox={`0 0 ${view.width} ${view.height}`} className="absolute inset-0 size-full overflow-visible">
+        {wires}
+      </svg>
+      {children}
+    </div>
+  );
+}
+
+const ANCHOR = {
+  center: "-translate-y-1/2",
+  // Half the FlowNode icon box (size-20), so the icon sits on the point.
+  icon: "-translate-y-10",
+};
+
+export function Positioned({
+  at,
+  view,
+  anchor = "icon",
+  children,
+}: {
+  at: Point;
+  view: View;
+  anchor?: keyof typeof ANCHOR;
+  children: ReactNode;
+}) {
+  return (
+    <div
+      className={`absolute -translate-x-1/2 ${ANCHOR[anchor]}`}
+      style={{ left: `${(at.x / view.width) * 100}%`, top: `${(at.y / view.height) * 100}%` }}
+    >
+      {children}
+    </div>
+  );
+}

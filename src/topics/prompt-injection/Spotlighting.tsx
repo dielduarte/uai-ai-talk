@@ -1,3 +1,5 @@
+import { ExternalLink } from "../../components/ExternalLink";
+
 
 const PAPER_URL = "https://arxiv.org/abs/2403.14720";
 
@@ -53,15 +55,7 @@ export function Spotlighting() {
         ))}
       </div>
 
-      <a
-        href={PAPER_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={(event) => event.stopPropagation()}
-        className="w-fit font-mono text-fg-secondary underline underline-offset-4 hover:text-brand"
-      >
-        {PAPER_URL}
-      </a>
+      <ExternalLink href={PAPER_URL} />
     </div>
   );
 }
