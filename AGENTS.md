@@ -11,13 +11,17 @@ A slide deck for a talk at UAI AI. Vite + React 19 + TypeScript + Tailwind v4 + 
 ## Layout
 
 - `src/topics.ts`: the talk agenda. List of topics, in order.
-- `src/topics/<topic>/`: one folder per topic. `index.ts` exports the `Topic` (its slides, the "Quando usar?" body, and an optional `bridge` slide that hooks into the next topic); one component per slide body.
-- `src/slides.ts`: slide model and `buildSlides` (intro, then per topic: section title, its slides, "Quando usar?", bridge).
+- `src/topics/<topic>/`: one folder per topic. `index.ts` exports the `Topic` (its slides, an optional "Quando usar?" body, and an optional `bridge` slide that hooks into the next topic); one component per slide body.
+- `src/slides.ts`: slide model and `buildSlides` (intro, then per topic: section title, its slides, "Quando usar?" when `whenToUse` is set, bridge).
 - `src/deck.ts`: pure navigation logic, including in-slide animation steps.
 - `src/useDeck.ts`: keyboard/hash wiring for `deck.ts`.
 - `src/App.tsx`: stage chrome (header, counter, progress bar) and the slide transition.
 - `src/components/`: shared slide pieces (`TitleSlide`, `ContentSlide`, `AnimatedTitle`, `Typewriter`).
 - `src/styles.css`: design tokens. Single source of truth for colors and fonts.
+
+## Topic parts
+
+A topic has either `slides` or `parts` (never both). Each part opens with a divider slide and its content slides show the part title in the eyebrow instead of the topic title. Use parts when a topic groups several subjects (topic 04: Smart routing, AI SDK, Chat SDK).
 
 ## Slide headers
 

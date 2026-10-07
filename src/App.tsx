@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "motion/react";
 import { ContentSlide } from "./components/ContentSlide";
+import { OutroSlide } from "./components/OutroSlide";
 import { TitleSlide } from "./components/TitleSlide";
 import type { Slide } from "./slides";
 import { slides } from "./topics";
@@ -12,12 +13,16 @@ function SlideView({ slide, step }: { slide: Slide; step: number }) {
   switch (slide.kind) {
     case "intro":
       return <TitleSlide eyebrow="Demo" title={slide.title} />;
+    case "outro":
+      return <OutroSlide title={slide.title} />;
     case "section":
       return <TitleSlide eyebrow={pad(slide.number)} title={slide.topic.title} />;
+    case "part":
+      return <TitleSlide eyebrow={pad(slide.number)} title={slide.title} />;
     case "content":
       return (
         <ContentSlide
-          eyebrow={`${pad(slide.number)} · ${slide.topic.title}`}
+          eyebrow={`${pad(slide.number)} · ${slide.part ?? slide.topic.title}`}
           title={slide.title}
           centered={slide.centered}
           step={step}
@@ -61,7 +66,7 @@ export function App() {
         {slides.map((s, i) => (
           <div
             key={s.id}
-            className={`h-1 flex-1 overflow-hidden rounded-full bg-muted-bg ${s.kind === "section" ? "ml-4" : ""}`}
+            className={`h-1 flex-1 overflow-hidden rounded-full bg-muted-bg ${s.kind === "section" || s.kind === "outro" ? "ml-4" : ""}`}
           >
             <motion.div
               className="h-full bg-brand"
