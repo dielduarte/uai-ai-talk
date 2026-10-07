@@ -19,6 +19,10 @@ A slide deck for a talk at UAI AI. Vite + React 19 + TypeScript + Tailwind v4 + 
 - `src/components/`: shared slide pieces (`TitleSlide`, `ContentSlide`, `AnimatedTitle`, `Typewriter`).
 - `src/styles.css`: design tokens. Single source of truth for colors and fonts.
 
+## Slide headers
+
+A content slide with a `title` shows the topic eyebrow and the title. Without a title it shows only the eyebrow. `centered: true` (untitled slides only) hides the eyebrow and centers the body, for full-bleed diagrams and code.
+
 ## Animated slides
 
 A slide with `steps: n` receives `step` (0 to n-1) in its `Body`. "Next" plays every step before moving to the next slide; "prev" from the next slide lands on the last step. Derive everything visual from `step` (`animate={{ ... step >= 2 ... }}`) so going backwards works too. Always give motion children explicit `initial`/`animate`, otherwise they inherit the slide's `enter/center/exit` variants.

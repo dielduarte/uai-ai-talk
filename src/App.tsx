@@ -19,6 +19,7 @@ function SlideView({ slide, step }: { slide: Slide; step: number }) {
         <ContentSlide
           eyebrow={`${pad(slide.number)} · ${slide.topic.title}`}
           title={slide.title}
+          centered={slide.centered}
           step={step}
           Body={slide.Body}
         />

@@ -2,18 +2,18 @@ import type { ComponentType } from "react";
 
 export type StepProps = { step: number };
 
+// A titled slide always shows the topic eyebrow; only untitled slides may be centered.
 export type TopicSlide = {
   id: string;
-  title?: string;
   steps?: number;
   Body?: ComponentType<StepProps>;
-};
+} & ({ title: string; centered?: never } | { title?: never; centered?: boolean });
 
 export type Topic = {
   id: string;
   title: string;
   slides: TopicSlide[];
-  whenToUse?: Omit<TopicSlide, "id" | "title">;
+  whenToUse?: Pick<TopicSlide, "steps" | "Body">;
   bridge?: TopicSlide;
 };
 
@@ -26,6 +26,7 @@ export type Slide =
       topic: Topic;
       number: number;
       title?: string;
+      centered: boolean;
       steps: number;
       Body?: ComponentType<StepProps>;
     };
@@ -39,7 +40,7 @@ export function buildSlides(topics: Topic[]): Slide[] {
       return [
         { kind: "section", id: topic.id, topic, number, steps: 1 },
         ...[...topic.slides, closing, ...(topic.bridge ? [topic.bridge] : [])].map(
-          ({ steps = 1, ...slide }): Slide => ({ kind: "content", topic, number, steps, ...slide }),
+          ({ steps = 1, centered = false, ...slide }): Slide => ({ kind: "content", topic, number, steps, centered, ...slide }),
         ),
       ];
     }),

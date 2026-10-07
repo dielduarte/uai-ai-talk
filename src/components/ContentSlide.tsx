@@ -6,17 +6,18 @@ import { AnimatedTitle, Eyebrow } from "./AnimatedTitle";
 type Props = {
   eyebrow: string;
   title?: string;
+  centered: boolean;
   step: number;
   Body?: ComponentType<StepProps>;
 };
 
-export function ContentSlide({ eyebrow, title, step, Body }: Props) {
+export function ContentSlide({ eyebrow, title, centered, step, Body }: Props) {
   return (
-    <section className={`flex flex-col gap-[5vh] ${title ? "" : "items-center"}`}>
-      {title && (
+    <section className={`flex flex-col gap-[5vh] ${centered ? "items-center" : ""}`}>
+      {!centered && (
         <div className="flex flex-col gap-4">
           <Eyebrow>{eyebrow}</Eyebrow>
-          <AnimatedTitle text={title} className="text-[clamp(2.25rem,4.5vw,4.5rem)] leading-[1.05]" />
+          {title && <AnimatedTitle text={title} className="text-[clamp(2.25rem,4.5vw,4.5rem)] leading-[1.05]" />}
         </div>
       )}
       {Body && (
