@@ -1,7 +1,7 @@
 // Photos are saved locally so the deck works offline.
 const SPEAKERS = [
-  { name: "Diel Duarte", handle: "dielduarte", photo: "/speakers/dielduarte.jpg" },
-  { name: "Charles Assunção", handle: "assuncaocharles", photo: "/speakers/assuncaocharles.jpg" },
+  { name: "Diel Duarte", handle: "dielduarte", photo: `${import.meta.env.BASE_URL}speakers/dielduarte.jpg` },
+  { name: "Charles Assunção", handle: "assuncaocharles", photo: `${import.meta.env.BASE_URL}speakers/assuncaocharles.jpg` },
 ];
 
 export function Speakers() {
